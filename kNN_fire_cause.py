@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import sqlite3
 import math
+import matplotlib.pyplot as plt
 from sklearn import neighbors
 from sklearn.model_selection import KFold
 from sklearn.model_selection import cross_val_score
@@ -58,13 +59,21 @@ if __name__ == "__main__":
     num_features = len( features )
 
     # K Nearest Neighbors
-    n_neighbors = math.floor( 1 * ( num_samples ** ( 4 / ( 4 + num_features ) ) ) ) 
-    clasifier = neighbors.KNeighborsClassifier( n_neighbors, weights='distance' )
+    neighbors_list = [ num * 5 for num in range( 21 ) ]
+    accuracy = []
 
-    # Cross fold validation    
-    k = 10
-    cross_fold = KFold( n_splits=k, random_state=None )
+    for num_neighbors in neighbors_list:
+        clasifier = neighbors.KNeighborsClassifier( num_neighbors, weights='distance' )
 
-    avg_accuracy = cross_val_score( clasifier, X, y, cv=cross_fold )
+        # Cross fold validation    
+        k = 10
+        cross_fold = KFold( n_splits=k, random_state=None )
 
-    print( 'Avg accuracy: ', avg_accuracy )
+        avg_accuracy = sum( cross_val_score( clasifier, X, y, cv=cross_fold ) ) / k
+        accuracy.append( avg_accuracy )
+
+    # Plot accuracy for varying n
+    plt.plot( neighbors_list, accuracy )
+    plt.ylabel( 'Accuracy, %' )
+    plt.xlabel( 'Neighbors, n' )
+    plt.show()
