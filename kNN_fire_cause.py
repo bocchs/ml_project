@@ -3,6 +3,8 @@ import pandas as pd
 import sqlite3
 import math
 from sklearn import neighbors
+from sklearn.model_selection import KFold
+from sklearn.model_selection import cross_val_score
 
 db_uri = './wildfire_data'
 
@@ -49,17 +51,20 @@ if __name__ == "__main__":
     stat_cause_desc = { cause_pair[0] : cause_pair[1] for cause_pair in stat_cause_df.to_numpy() }
 
     # Set X and y from data file
-    X = df.loc[:, features].to_numpy()
-    y = df.loc[:, output_feature].to_numpy()
+    X = df.loc[:, features]
+    y = df.loc[:, output_feature]
 
     num_samples = len( y )
     num_features = len( features )
 
     # K Nearest Neighbors
-    # TODO: this heuristic should be based on num samples of training data...
     n_neighbors = math.floor( 1 * ( num_samples ** ( 4 / ( 4 + num_features ) ) ) ) 
     clasifier = neighbors.KNeighborsClassifier( n_neighbors, weights='distance' )
-    clasifier.fit( X, y )
 
-    # TODO: cross validation to determine accuracy among different k values
-    # TODO: plot graphs for accuracy and clusters too
+    # Cross fold validation    
+    k = 10
+    cross_fold = KFold( n_splits=k, random_state=None )
+
+    avg_accuracy = cross_val_score( clasifier, X, y, cv=cross_fold )
+
+    print( 'Avg accuracy: ', avg_accuracy )
