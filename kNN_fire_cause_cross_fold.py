@@ -1,9 +1,7 @@
-import numpy as np
 import pandas as pd
 import sqlite3
-import math
-import matplotlib.pyplot as plt
 from sklearn import neighbors
+import matplotlib.pyplot as plt
 from sklearn.model_selection import KFold
 from sklearn.model_selection import cross_val_score
 
@@ -19,8 +17,8 @@ if __name__ == "__main__":
     # select features
     features = [
         'FIRE_YEAR', 
-        'DISCOVERY_TIME', 
-        'LATITUDE', 
+        #'DISCOVERY_TIME',
+        'LATITUDE',  
         'LONGITUDE', 
         'FIRE_SIZE'
     ]
@@ -49,7 +47,10 @@ if __name__ == "__main__":
 
     # STAT Cause Description Reference
     stat_cause_df = pd.read_sql_query( "SELECT STAT_CAUSE_CODE, STAT_CAUSE_DESCR FROM 'Fires'", conn )
-    stat_cause_desc = { cause_pair[0] : cause_pair[1] for cause_pair in stat_cause_df.to_numpy() }
+    stat_cause_desc = { cause_pair[1] : cause_pair[0] for cause_pair in stat_cause_df.to_numpy() }
+
+    # Only use lightning and campfire causes to try and improve accuracy for just two causes
+    df = df.loc[df['STAT_CAUSE_CODE'].isin( [stat_cause_desc['Lightning'], stat_cause_desc['Campfire']] )]
 
     # Set X and y from data file
     X = df.loc[:, features]
@@ -59,21 +60,22 @@ if __name__ == "__main__":
     num_features = len( features )
 
     # K Nearest Neighbors
-    neighbors_list = [ num * 5 for num in range( 21 ) ]
+    neighbors_list = [ num * 5 for num in range( 1, 21 ) ]
     accuracy = []
 
     for num_neighbors in neighbors_list:
+        print( 'Neighbors: ', num_neighbors )
         clasifier = neighbors.KNeighborsClassifier( num_neighbors, weights='distance' )
 
         # Cross fold validation    
-        k = 10
+        k = 3
         cross_fold = KFold( n_splits=k, random_state=None )
 
-        avg_accuracy = sum( cross_val_score( clasifier, X, y, cv=cross_fold ) ) / k
+        avg_accuracy = sum( cross_val_score( clasifier, X, y, cv=cross_fold, n_jobs=-1 ) ) / k
         accuracy.append( avg_accuracy )
 
     # Plot accuracy for varying n
     plt.plot( neighbors_list, accuracy )
     plt.ylabel( 'Accuracy, %' )
     plt.xlabel( 'Neighbors, n' )
-    plt.show()
+    plt.savefig( 'output.png' )
