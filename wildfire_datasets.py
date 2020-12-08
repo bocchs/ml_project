@@ -39,22 +39,21 @@ def get_wildfire_dataset(y_label='STAT_CAUSE_CODE'):
     # df = pd.read_sql_query("SELECT FIRE_YEAR, STAT_CAUSE_CODE, STAT_CAUSE_DESCR, LATITUDE, LONGITUDE, STATE, DISCOVERY_DATE, FIRE_SIZE FROM 'Fires'", conn)
     # df = pd.read_sql_query("SELECT STAT_CAUSE_CODE, LATITUDE, LONGITUDE, STATE, FIRE_SIZE FROM 'Fires'", conn)
     # df = pd.read_sql_query("SELECT STAT_CAUSE_CODE, LATITUDE, LONGITUDE, STATE, FIRE_SIZE, FIRE_YEAR, DISCOVERY_DATE, DISCOVERY_DOY, DISCOVERY_TIME  FROM 'Fires'", conn)
-    df = pd.read_sql_query("SELECT STAT_CAUSE_CODE, LATITUDE, LONGITUDE, STATE, FIRE_SIZE, FIRE_YEAR  FROM 'Fires'", conn)
+    df = pd.read_sql_query("SELECT STAT_CAUSE_CODE, LATITUDE, LONGITUDE, STATE, FIRE_SIZE, FIRE_YEAR, DISCOVERY_DOY  FROM 'Fires'", conn)
     df = df.dropna() # remove rows with missing entries
     df = df[df['STAT_CAUSE_CODE'] != 13] # remove missing/undefined causes
 
     causes = df.STAT_CAUSE_CODE.unique()
     states = df.STATE.unique()
     df = df.drop('STATE', 1) # remove state from features
-    df = df.drop('FIRE_YEAR', 1) # remove state from features
-    df = df.sort_values(by=['FIRE_SIZE'], ascending=False)
+    df = df.drop('FIRE_YEAR', 1) # remove year from features
 
     num_features = df.shape[1] - 1
 
     # collect features and label from entire dataset
     X = np.zeros((0,num_features))
     y = np.zeros(0)
-    # print(df)
+    print(df)
     if y_label == 'STAT_CAUSE_CODE': # predicting the cause of the fire
         cause_to_label = {} # map causes 1...13 to labels 0...num_causes-1
         df['STAT_CAUSE_CODE'] = df['STAT_CAUSE_CODE'].astype('int32')
