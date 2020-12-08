@@ -53,7 +53,7 @@ def get_wildfire_dataset(y_label='STAT_CAUSE_CODE'):
     # collect features and label from entire dataset
     X = np.zeros((0,num_features))
     y = np.zeros(0)
-    print(df)
+    # print(df)
     if y_label == 'STAT_CAUSE_CODE': # predicting the cause of the fire
         cause_to_label = {} # map causes 1...13 to labels 0...num_causes-1
         df['STAT_CAUSE_CODE'] = df['STAT_CAUSE_CODE'].astype('int32')
@@ -239,7 +239,7 @@ def get_dataset_with_weather_multi_cities(cities, csv_filename=None):
 # if y_label=='STAT_CAUSE_CODE' then predicting cause of fire and can select a subset of causes (labels) to train/test on
 # else predicting fire size
 def get_dataset_from_csv(csv_file, features=['latitude','longitude','temperature','wind_speed','humidity','pressure'], causes=list(range(1,13)), y_label='STAT_CAUSE_CODE'):
-    df = pd.read_csv(csv_file)
+    df = pd.read_csv(csv_file, index_col=0)
 
     if 'STATE' not in (feat.upper() for feat in features):
         df = df.drop('STATE', 1)
@@ -263,6 +263,8 @@ def get_dataset_from_csv(csv_file, features=['latitude','longitude','temperature
         df = df.drop('Humidity', 1)
     if 'PRESSURE' not in (feat.upper() for feat in features):
         df = df.drop('Pressure', 1)
+
+    # print(df)
 
     num_features = df.shape[1] - 1
     # collect features and label from entire dataset

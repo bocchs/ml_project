@@ -65,7 +65,7 @@ class SmallNet(nn.Module):
         return x
 
 
-def train_nn(model, X_train, y_train):
+def train_nn(model, X_train, y_train, display_train_loss=False):
     model.train()
     X_train = torch.from_numpy(X_train).float()
     y_train = torch.from_numpy(y_train).long()
@@ -74,6 +74,7 @@ def train_nn(model, X_train, y_train):
     criterion = nn.CrossEntropyLoss()
     batch_size = 64
     num_steps = int(5e3)
+    loss_ra = np.zeros(num_steps)
     for step in range(num_steps):
         inds = np.random.choice(N, batch_size, replace=False) # sample batch 
         X_batch = X_train[inds]
@@ -83,8 +84,10 @@ def train_nn(model, X_train, y_train):
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-        if step % 100 == 0:
+        loss_ra[step] = loss.item()
+        if step % 100 == 0 and display_train_loss:
             print('Step ' + str(step) + ' loss = ' + str(loss.item()))
+    print("Finished training neural net: total loss = " + str(loss_ra.sum()) + "   avg loss = " + str(loss_ra.mean()))
     return model
 
 
@@ -243,6 +246,7 @@ def cross_val_regression(X, y, K, reg):
 
 
 def test_decision_tree(X, y, max_depth_array, K=10):
+    X = normalize_features(X)
     print("Testing decision tree for predicting wildfire cause...")
     max_mean_acc = 0
     best_depth = 0
@@ -261,6 +265,7 @@ def test_decision_tree(X, y, max_depth_array, K=10):
 
 
 def test_big_net(X, y, K=10):
+    X = normalize_features(X)
     print("Testing Big Net for predicting wildfire cause...")
     num_classes = len(np.unique(y))
     net = BigNet(X.shape[1], num_classes)
@@ -270,6 +275,7 @@ def test_big_net(X, y, K=10):
 
 
 def test_small_net(X, y, K=10):
+    X = normalize_features(X)
     print("Testing Small Net for predicting wildfire cause...")
     num_classes = len(np.unique(y))
     net = BigNet(X.shape[1], num_classes)
@@ -320,10 +326,9 @@ def test_gauss_svm(X, y, alpha_array, K=10):
 def test_ridge_regression(X, y, alpha_array, K=10):
     X = normalize_features(X)
     print("Testing ridge regression for predicting wildfire size...")
-    mask = y > 0
+    mask = y < 1
     X = X[mask]
     y = y[mask]
-    print(X.shape)
     min_mean_mse = 1e30
     best_alpha = 0
     for alpha in alpha_array:
@@ -358,23 +363,47 @@ def run_decision_tree_tests():
     print(" --------- Decision Tree: testing classification of 12 causes of wildfire using latitude, longitude, fire size, and weather features  --------- ")
     X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size','temperature','wind_speed','humidity','pressure'], causes=list(range(1,13)), y_label='STAT_CAUSE_CODE')
     test_decision_tree(X, y, max_depth_array, K=10)
-    print('\n\n')
+    print('\n')
+
+    print(" --------- Decision Tree: testing classification of lightning vs campfire as cause of wildfire using only latitude, longitude, and fire size (no weather features)  --------- ")
+    X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size'], causes=[1,4], y_label='STAT_CAUSE_CODE')
+    test_decision_tree(X, y, max_depth_array, K=10)
+    print('\n')
+
+    print(" --------- Decision Tree: testing classification of lightning vs campfire as cause of wildfire using latitude, longitude, fire size, and weather features  --------- ")
+    X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size','temperature','wind_speed','humidity','pressure'], causes=[1,4], y_label='STAT_CAUSE_CODE')
+    test_decision_tree(X, y, max_depth_array, K=10)
+    print('\n\n\n')
 
 
 def run_neural_network_tests():
     print(" --------- Neural Network: testing classification of 12 causes of wildfire using only latitude, longitude, and fire size (no weather features) --------- ")
-    X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size'], causes=[1, 4], y_label='STAT_CAUSE_CODE')
+    X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size'], causes=list(range(1,13)), y_label='STAT_CAUSE_CODE')
     test_big_net(X, y, K=5)
     print('\n')
     test_small_net(X, y, K=5)
     print('\n')
 
     print(" --------- Neural Network: testing classification of 12 causes of wildfire including weather features --------- ")
+    X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size','temperature','wind_speed','humidity','pressure'], causes=list(range(1,13)), y_label='STAT_CAUSE_CODE')
+    test_big_net(X, y, K=5)
+    print('\n')
+    test_small_net(X, y, K=5)
+    print('\n')
+
+    print(" --------- Neural Network: testing classification of lightning vs campfire as cause of wildfire using only latitude, longitude, and fire size (no weather features) --------- ")
+    X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size'], causes=[1, 4], y_label='STAT_CAUSE_CODE')
+    test_big_net(X, y, K=5)
+    print('\n')
+    test_small_net(X, y, K=5)
+    print('\n')
+
+    print(" --------- Neural Network: testing classification of lightning vs campfire as cause of wildfire including weather features --------- ")
     X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size','temperature','wind_speed','humidity','pressure'], causes=[1, 4], y_label='STAT_CAUSE_CODE')
     test_big_net(X, y, K=5)
     print('\n')
     test_small_net(X, y, K=5)
-    print('\n\n')
+    print('\n\n\n')
 
 
 def run_svm_tests():
@@ -385,13 +414,12 @@ def run_svm_tests():
     test_gauss_svm(X, y, alpha_array, K=10)
     print('\n')
 
-
     print(" --------- SVM: testing classification of lightning vs campfire as cause of wildfire including weather features --------- ")
     X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size','temperature','wind_speed','humidity','pressure'], causes=[1, 4], y_label='STAT_CAUSE_CODE')
     test_linear_svm(X, y, alpha_array, K=10)
     print('\n')
     test_gauss_svm(X, y, alpha_array, K=10)
-    print('\n\n')
+    print('\n\n\n')
 
 
 def run_ridge_regression_tests():
@@ -404,7 +432,7 @@ def run_ridge_regression_tests():
     print(" --------- Ridge Regression: testing prediction of wildfire size using latitude, longitude, and weather features --------- ")
     X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','temperature','wind_speed','humidity','pressure'], causes=[], y_label='FIRE_SIZE')
     test_ridge_regression(X, y, alpha_array)
-    print('\n\n')
+    print('\n\n\n')
 
 
 """
@@ -433,8 +461,8 @@ if __name__ == "__main__":
     # can then read dataset faster from csv file rather than SQLite database
     # X, y = get_dataset_with_weather_multi_cities(cities, csv_file) # <-- run this to combine wildfire data with weather data and save to csv
 
-    
     run_decision_tree_tests()
-    # run_ridge_regression_tests()
-    # run_svm_tests()
-    # run_neural_network_tests()
+    run_neural_network_tests()
+    run_svm_tests()
+    run_ridge_regression_tests()
+    
