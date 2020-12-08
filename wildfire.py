@@ -4,11 +4,14 @@ import sqlite3
 import sklearn
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline
+from sklearn.decomposition import IncrementalPCA
 from sklearn import tree
+from sklearn import neighbors
 from sklearn.svm import SVC
 from sklearn.svm import LinearSVC
 from sklearn.linear_model import Ridge
 import sys
+from os import path
 import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
@@ -29,6 +32,9 @@ alpha_array = [0.001, 0.01, 0.1, 0.5, 1, 10, 50, 100, 500, 1000]
 
 # determine best decision tree depths using cross validation
 max_depth_array = [3, 5, 10, 20, 25, 50, 100] 
+
+# determine best number of neighbors using cross validation (5 to 100 increments of 5)
+neighbors_list = [ num * 5 for num in range( 1, 21 ) ]
 
 # filename of csv for saving combined wildfire and weather data to
 csv_file = 'fire_weather_cities.csv'
@@ -140,6 +146,56 @@ def cross_val_classification(X, y, K, clf):
         accuracies[k] = np.sum(predictions == test_y) / test_N
     return accuracies, accuracies.mean()
 
+# perform cross validation using classifier clf and pca pipeline
+# return test accuracy of each fold in K-fold cross validation (length-K vector)
+# return average of test accuracies (average of length-K vector)
+def cross_val_classification_with_reduction(X, y, K, clf, pipe):
+    new_clf = sklearn.base.clone(clf) # save untrained classifier
+    new_pipe = sklearn.base.clone(pipe) # save untrained pipeline for dimension reduction
+    # make the number of examples a multiple of K
+    num_extra_examples = len(y) % K
+    if num_extra_examples != 0:
+        X = X[:-num_extra_examples]
+        y = y[:-num_extra_examples]
+    N = len(y)
+    examples_per_group = N // K
+    accuracies = np.zeros(K)
+    for k in range(K):
+        # get train and test groups
+        test_idx_start = k * examples_per_group
+        test_idx_end = test_idx_start + examples_per_group
+        test_X = X[test_idx_start:test_idx_end]
+        test_y = y[test_idx_start:test_idx_end]
+
+        train_idx_start = test_idx_end
+        if train_idx_start == N:
+            train_idx_start = 0
+        train_idx_end = train_idx_start + examples_per_group * (K - 1)
+        if train_idx_end > N:
+            train_idx_end = train_idx_end % N
+            train_X = np.vstack((X[train_idx_start:], X[:train_idx_end]))
+            train_y = np.concatenate((y[train_idx_start:], y[:train_idx_end]))
+        else:
+            train_X = X[train_idx_start:train_idx_end]
+            train_y = y[train_idx_start:train_idx_end]
+
+        # reset to untrained classifier and pca pipeline for each crossval fold
+        new_clf = sklearn.base.clone(clf)
+        new_pipe = sklearn.base.clone(pipe)
+
+        # train on current training data split
+        new_pipe.fit(train_X, train_y)
+        new_clf = new_clf.fit(new_pipe.transform(train_X), train_y)
+
+        # get predictions for current test data split
+        test_N = len(test_y)
+        predictions = np.zeros(test_N)
+        for i in range(test_N):
+            sample = np.reshape(test_X[i],(1,-1))
+            pred = new_clf.predict(new_pipe.transform(sample))
+            predictions[i] = pred
+        accuracies[k] = np.sum(predictions == test_y) / test_N
+    return accuracies, accuracies.mean()
 
 # perform cross validation using neural network
 # return test accuracy of each fold in K-fold cross validation (length-K vector)
@@ -244,6 +300,42 @@ def cross_val_regression(X, y, K, reg):
 
 
 
+def test_nearest_neighbor(X, y, neighbors_list, K=10):
+    X = normalize_features(X)
+    print("Testing nearest neighbor for predicting wildfire cause...")
+    max_mean_acc = 0
+    best_num_neighbors = 0
+    for num_neighbors in neighbors_list:
+        clf = neighbors.KNeighborsClassifier(num_neighbors, weights='distance')
+        print("Testing nearest neighbors with k = " + str(num_neighbors))
+        accs, mean_acc_crossval = cross_val_classification(X, y, K=K, clf=clf)
+        print("Obtained avg crossval accuracy = " + str(mean_acc_crossval))
+        if mean_acc_crossval > max_mean_acc:
+            best_num_neighbors = num_neighbors
+            max_mean_acc = mean_acc_crossval
+            best_accs = accs
+    print("Nearest Neighbor best crossval accuracies = " + str(best_accs))
+    print("Nearest Neighbor best avg crossval accuracy = " + str(max_mean_acc))
+    print("Nearest Neighbor best number of neighbors = " + str(best_num_neighbors))
+
+def test_nearest_neighbor_reduction(X, y, neighbors_list, K=10, d=3):
+    X = normalize_features(X)
+    print("Testing nearest neighbor with dimension reduction for predicting wildfire cause...")
+    max_mean_acc = 0
+    best_num_neighbors = 0
+    for num_neighbors in neighbors_list:
+        clf = neighbors.KNeighborsClassifier(num_neighbors, weights='distance')
+        pca = make_pipeline( StandardScaler(), IncrementalPCA(n_components=d,batch_size=1000000 ) )
+        print("Testing nearest neighbors with k = " + str(num_neighbors) + " and dimension = " + str(d))
+        accs, mean_acc_crossval = cross_val_classification_with_reduction(X, y, K=K, clf=clf, pipe=pca)
+        print("Obtained avg crossval accuracy = " + str(mean_acc_crossval))
+        if mean_acc_crossval > max_mean_acc:
+            best_num_neighbors = num_neighbors
+            max_mean_acc = mean_acc_crossval
+            best_accs = accs
+    print("Nearest Neighbor dimension reduction best crossval accuracies = " + str(best_accs))
+    print("Nearest Neighbor dimension reduction best avg crossval accuracy = " + str(max_mean_acc))
+    print("Nearest Neighbor dimension reduction best max depth = " + str(best_num_neighbors))
 
 def test_decision_tree(X, y, max_depth_array, K=10):
     X = normalize_features(X)
@@ -262,7 +354,6 @@ def test_decision_tree(X, y, max_depth_array, K=10):
     print("Decision Tree best crossval accuracies = " + str(best_accs))
     print("Decision Tree best avg crossval accuracy = " + str(max_mean_acc))
     print("Decision Tree best max depth = " + str(best_depth))
-
 
 def test_big_net(X, y, K=10):
     X = normalize_features(X)
@@ -352,9 +443,51 @@ def normalize_features(X):
 
 
 
-def run_decision_tree_tests():
+def run_nearest_neighbor_tests():
     # for classifying cause of fire (wildfire and weather dataset combined)
     # select which causes to train/test on by setting the causes list (e.g. causes=[1,4])
+    print(" --------- Nearest Neighbors: testing classification of 12 causes of wildfire using only latitude, longitude, and fire size (no weather features)  --------- ")
+    X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size'], causes=list(range(1,13)), y_label='STAT_CAUSE_CODE')
+    test_nearest_neighbor(X, y, neighbors_list, K=10)
+    print('\n')
+
+    print(" --------- Nearest Neighbors: testing classification of 12 causes of wildfire using latitude, longitude, fire size, and weather features  --------- ")
+    X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size','temperature','wind_speed','humidity','pressure'], causes=list(range(1,13)), y_label='STAT_CAUSE_CODE')
+    test_nearest_neighbor(X, y, neighbors_list, K=10)
+    print('\n')
+
+    print(" --------- Nearest Neighbors: testing classification of lightning vs campfire as cause of wildfire using only latitude, longitude, and fire size (no weather features)  --------- ")
+    X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size'], causes=[1,4], y_label='STAT_CAUSE_CODE')
+    test_nearest_neighbor(X, y, neighbors_list, K=10)
+    print('\n')
+
+    print(" --------- Nearest Neighbors: testing classification of lightning vs campfire as cause of wildfire using latitude, longitude, fire size, and weather features  --------- ")
+    X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size','temperature','wind_speed','humidity','pressure'], causes=[1,4], y_label='STAT_CAUSE_CODE')
+    test_nearest_neighbor(X, y, neighbors_list, K=10)
+    print('\n\n\n')
+
+def run_nearest_neighbor_dimensional_reduction_tests():
+    print(" --------- Nearest Neighbors Dimension 3: testing classification of 12 causes of wildfire using only latitude, longitude, and fire size (no weather features)  --------- ")
+    X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size'], causes=list(range(1,13)), y_label='STAT_CAUSE_CODE')
+    test_nearest_neighbor_reduction(X, y, neighbors_list, K=10, d=3)
+    print('\n')
+
+    print(" --------- Nearest Neighbors Dimension 3: testing classification of 12 causes of wildfire using latitude, longitude, fire size, and weather features  --------- ")
+    X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size','temperature','wind_speed','humidity','pressure'], causes=list(range(1,13)), y_label='STAT_CAUSE_CODE')
+    test_nearest_neighbor_reduction(X, y, neighbors_list, K=10, d=3)
+    print('\n')
+
+    print(" --------- Nearest Neighbors Dimension 3: testing classification of lightning vs campfire as cause of wildfire using only latitude, longitude, and fire size (no weather features)  --------- ")
+    X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size'], causes=[1,4], y_label='STAT_CAUSE_CODE')
+    test_nearest_neighbor_reduction(X, y, neighbors_list, K=10, d=3)
+    print('\n')
+
+    print(" --------- Nearest Neighbors Dimension 3: testing classification of lightning vs campfire as cause of wildfire using latitude, longitude, fire size, and weather features  --------- ")
+    X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size','temperature','wind_speed','humidity','pressure'], causes=[1,4], y_label='STAT_CAUSE_CODE')
+    test_nearest_neighbor_reduction(X, y, neighbors_list, K=10, d=3)
+    print('\n\n\n')
+
+def run_decision_tree_tests():
     print(" --------- Decision Tree: testing classification of 12 causes of wildfire using only latitude, longitude, and fire size (no weather features)  --------- ")
     X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size'], causes=list(range(1,13)), y_label='STAT_CAUSE_CODE')
     test_decision_tree(X, y, max_depth_array, K=10)
@@ -459,8 +592,11 @@ if __name__ == "__main__":
     cities = ['Los Angeles', 'San Francisco', 'San Diego'] # cities for combining wildfire and weather data
     # save combined wildfire and weather dataset to csv file
     # can then read dataset faster from csv file rather than SQLite database
-    # X, y = get_dataset_with_weather_multi_cities(cities, csv_file) # <-- run this to combine wildfire data with weather data and save to csv
+    if ( not path.exists(csv_file) ):
+        X, y = get_dataset_with_weather_multi_cities(cities, csv_file) # <-- run this to combine wildfire data with weather data and save to csv
 
+    run_nearest_neighbor_tests()
+    run_nearest_neighbor_dimensional_reduction_tests()
     run_decision_tree_tests()
     run_neural_network_tests()
     run_svm_tests()
