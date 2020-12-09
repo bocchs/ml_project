@@ -11,6 +11,7 @@ from sklearn.svm import SVC
 from sklearn.svm import LinearSVC
 from sklearn.linear_model import Ridge
 import sys
+import os
 from os import path
 import matplotlib.pyplot as plt
 import torch
@@ -38,6 +39,9 @@ neighbors_list = [ num * 5 for num in range( 1, 21 ) ]
 
 # filename of csv for saving combined wildfire and weather data to
 csv_file = 'fire_weather_cities.csv'
+
+print_tests_to_files = True
+test_folder = 'tests/'
 
 
 
@@ -335,15 +339,15 @@ def test_nearest_neighbor_reduction(X, y, neighbors_list, K=10, d=3):
             best_accs = accs
     print("Nearest Neighbor dimension reduction best crossval accuracies = " + str(best_accs))
     print("Nearest Neighbor dimension reduction best avg crossval accuracy = " + str(max_mean_acc))
-    print("Nearest Neighbor dimension reduction best max depth = " + str(best_num_neighbors))
+    print("Nearest Neighbor dimension reduction best number of neighbors = " + str(best_num_neighbors))
 
-def test_decision_tree(X, y, max_depth_array, K=10):
+def test_decision_tree_max_depth(X, y, max_depth_array, K=10):
     X = normalize_features(X)
-    print("Testing decision tree for predicting wildfire cause...")
+    print("Testing decision tree best max depth for predicting wildfire cause...")
     max_mean_acc = 0
     best_depth = 0
     for max_depth in max_depth_array:
-        clf = tree.DecisionTreeClassifier(max_depth=max_depth)
+        clf = tree.DecisionTreeClassifier(criterion='gini', max_depth=max_depth)
         print("Testing decision tree max_depth = " + str(max_depth))
         accs, mean_acc_crossval = cross_val_classification(X, y, K=K, clf=clf)
         print("Obtained avg crossval accuracy = " + str(mean_acc_crossval))
@@ -354,6 +358,22 @@ def test_decision_tree(X, y, max_depth_array, K=10):
     print("Decision Tree best crossval accuracies = " + str(best_accs))
     print("Decision Tree best avg crossval accuracy = " + str(max_mean_acc))
     print("Decision Tree best max depth = " + str(best_depth))
+
+
+def test_decision_tree_criterion(X, y, K=10):
+    X = normalize_features(X)
+    print("Testing decision tree mutual info vs Gini feature split for predicting wildfire cause...")
+
+    clf = tree.DecisionTreeClassifier(criterion='gini')
+    print("Testing decision tree with Gini criterion")
+    accs, mean_acc_crossval = cross_val_classification(X, y, K=K, clf=clf)
+    print("Gini criterion obtained avg crossval accuracy = " + str(mean_acc_crossval))
+
+    clf = tree.DecisionTreeClassifier(criterion='entropy', max_depth=10)
+    print("Testing decision tree with entropy criterion")
+    accs, mean_acc_crossval = cross_val_classification(X, y, K=K, clf=clf)
+    print("entropy criterion obtained avg crossval accuracy = " + str(mean_acc_crossval))
+
 
 def test_big_net(X, y, K=10):
     X = normalize_features(X)
@@ -444,6 +464,8 @@ def normalize_features(X):
 
 
 def run_nearest_neighbor_tests():
+    if print_tests_to_files:
+        sys.stdout = open(test_folder + 'nearest_neighbor_tests.txt', 'w')
     # for classifying cause of fire (wildfire and weather dataset combined)
     # select which causes to train/test on by setting the causes list (e.g. causes=[1,4])
     print(" --------- Nearest Neighbors: testing classification of 12 causes of wildfire using only latitude, longitude, and fire size (no weather features)  --------- ")
@@ -467,6 +489,8 @@ def run_nearest_neighbor_tests():
     print('\n\n\n')
 
 def run_nearest_neighbor_dimensional_reduction_tests():
+    if print_tests_to_files:
+        sys.stdout = open(test_folder + 'nearest_neighbor_dim_reduc_tests.txt', 'w')
     print(" --------- Nearest Neighbors Dimension 3: testing classification of 12 causes of wildfire using only latitude, longitude, and fire size (no weather features)  --------- ")
     X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size'], causes=list(range(1,13)), y_label='STAT_CAUSE_CODE')
     test_nearest_neighbor_reduction(X, y, neighbors_list, K=10, d=3)
@@ -488,28 +512,42 @@ def run_nearest_neighbor_dimensional_reduction_tests():
     print('\n\n\n')
 
 def run_decision_tree_tests():
-    print(" --------- Decision Tree: testing classification of 12 causes of wildfire using only latitude, longitude, and fire size (no weather features)  --------- ")
+    if print_tests_to_files:
+        sys.stdout = open(test_folder + 'decision_tree_tests.txt', 'w')
+    print(" --------- Decision Tree (max depth): testing classification of 12 causes of wildfire using only latitude, longitude, and fire size (no weather features)  --------- ")
     X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size'], causes=list(range(1,13)), y_label='STAT_CAUSE_CODE')
-    test_decision_tree(X, y, max_depth_array, K=10)
+    test_decision_tree_max_depth(X, y, max_depth_array, K=10)
     print('\n')
 
-    print(" --------- Decision Tree: testing classification of 12 causes of wildfire using latitude, longitude, fire size, and weather features  --------- ")
+    print(" --------- Decision Tree (max depth): testing classification of 12 causes of wildfire using latitude, longitude, fire size, and weather features  --------- ")
     X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size','temperature','wind_speed','humidity','pressure'], causes=list(range(1,13)), y_label='STAT_CAUSE_CODE')
-    test_decision_tree(X, y, max_depth_array, K=10)
+    test_decision_tree_max_depth(X, y, max_depth_array, K=10)
     print('\n')
 
-    print(" --------- Decision Tree: testing classification of lightning vs campfire as cause of wildfire using only latitude, longitude, and fire size (no weather features)  --------- ")
+    print(" --------- Decision Tree (max depth): testing classification of lightning vs campfire as cause of wildfire using only latitude, longitude, and fire size (no weather features)  --------- ")
     X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size'], causes=[1,4], y_label='STAT_CAUSE_CODE')
-    test_decision_tree(X, y, max_depth_array, K=10)
+    test_decision_tree_max_depth(X, y, max_depth_array, K=10)
     print('\n')
 
-    print(" --------- Decision Tree: testing classification of lightning vs campfire as cause of wildfire using latitude, longitude, fire size, and weather features  --------- ")
+    print(" --------- Decision Tree (max depth): testing classification of lightning vs campfire as cause of wildfire using latitude, longitude, fire size, and weather features  --------- ")
     X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size','temperature','wind_speed','humidity','pressure'], causes=[1,4], y_label='STAT_CAUSE_CODE')
-    test_decision_tree(X, y, max_depth_array, K=10)
+    test_decision_tree_max_depth(X, y, max_depth_array, K=10)
+    print('\n')
+
+    print(" --------- Decision Tree (kernel): testing classification of 12 causes of wildfire using latitude, longitude, fire size, and weather features  --------- ")
+    X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size','temperature','wind_speed','humidity','pressure'], causes=list(range(1,13)), y_label='STAT_CAUSE_CODE')
+    test_decision_tree_criterion(X, y, K=10)
+    print('\n')
+
+    print(" --------- Decision Tree (kernel): testing classification of lightning vs campfire as cause of wildfire using latitude, longitude, fire size, and weather features  --------- ")
+    X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size','temperature','wind_speed','humidity','pressure'], causes=[1,4], y_label='STAT_CAUSE_CODE')
+    test_decision_tree_criterion(X, y, K=10)
     print('\n\n\n')
 
 
 def run_neural_network_tests():
+    if print_tests_to_files:
+        sys.stdout = open(test_folder + 'neural_net_tests.txt', 'w')
     print(" --------- Neural Network: testing classification of 12 causes of wildfire using only latitude, longitude, and fire size (no weather features) --------- ")
     X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size'], causes=list(range(1,13)), y_label='STAT_CAUSE_CODE')
     test_big_net(X, y, K=5)
@@ -540,6 +578,8 @@ def run_neural_network_tests():
 
 
 def run_svm_tests():
+    if print_tests_to_files:
+        sys.stdout = open(test_folder + 'svm_tests.txt', 'w')
     print(" --------- SVM: testing classification of lightning vs campfire as cause of wildfire using only latitude, longitude, and fire size (no weather features) --------- ")
     X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size'], causes=[1, 4], y_label='STAT_CAUSE_CODE')
     test_linear_svm(X, y, alpha_array, K=10)
@@ -556,6 +596,8 @@ def run_svm_tests():
 
 
 def run_ridge_regression_tests():
+    if print_tests_to_files:
+        sys.stdout = open(test_folder + 'rdige_regression_tests.txt', 'w')
     # for classifying size of fire (wildfire and weather dataset combined)
     print(" --------- Ridge Regression: testing prediction of wildfire size using only weather features --------- ")
     X, y = get_dataset_from_csv(csv_file, features=['temperature','wind_speed','humidity','pressure'], causes=[], y_label='FIRE_SIZE')
@@ -594,6 +636,9 @@ if __name__ == "__main__":
     # can then read dataset faster from csv file rather than SQLite database
     if ( not path.exists(csv_file) ):
         X, y = get_dataset_with_weather_multi_cities(cities, csv_file) # <-- run this to combine wildfire data with weather data and save to csv
+
+    if ( not path.exists(test_folder) ):
+        os.mkdir(test_folder)
 
     run_nearest_neighbor_tests()
     run_nearest_neighbor_dimensional_reduction_tests()
