@@ -18,6 +18,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from datetime import datetime, timedelta
+import argparse
 from wildfire_datasets import *
 
 
@@ -40,7 +41,7 @@ neighbors_list = [ num * 5 for num in range( 1, 21 ) ]
 # filename of csv for saving combined wildfire and weather data to
 csv_file = 'fire_weather_cities.csv'
 
-print_tests_to_files = True
+# save test result files in this folder
 test_folder = 'tests/'
 
 
@@ -82,8 +83,8 @@ def train_nn(model, X_train, y_train, display_train_loss=False):
     N = X_train.shape[0]
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
     criterion = nn.CrossEntropyLoss()
-    batch_size = 64
-    num_steps = int(5e3)
+    batch_size = 32
+    num_steps = 1000
     loss_ra = np.zeros(num_steps)
     for step in range(num_steps):
         inds = np.random.choice(N, batch_size, replace=False) # sample batch 
@@ -364,7 +365,7 @@ def test_decision_tree_criterion(X, y, K=10):
     X = normalize_features(X)
     print("Testing decision tree mutual info vs Gini feature split for predicting wildfire cause...")
 
-    clf = tree.DecisionTreeClassifier(criterion='gini')
+    clf = tree.DecisionTreeClassifier(criterion='gini', max_depth=10)
     print("Testing decision tree with Gini criterion")
     accs, mean_acc_crossval = cross_val_classification(X, y, K=K, clf=clf)
     print("Gini criterion obtained avg crossval accuracy = " + str(mean_acc_crossval))
@@ -395,9 +396,9 @@ def test_small_net(X, y, K=10):
     print("Small Net average crossval accuracy = " + str(mean_acc_crossval))
 
 
-def test_linear_svm(X, y, alpha_array, K=10):
+def test_svm_L2_coeff(X, y, alpha_array, K=10):
     X = normalize_features(X)
-    print("Testing SVM with linear kernel for predicting wildfire cause...")
+    print("Testing L2 coeffs in SVM with linear kernel for predicting wildfire cause...")
     max_mean_acc = 0
     best_alpha = 0
     for alpha in alpha_array:
@@ -414,23 +415,18 @@ def test_linear_svm(X, y, alpha_array, K=10):
     print("SVM with linear kernel best L2 regularization coefficient = " + str(best_alpha))
 
 
-def test_gauss_svm(X, y, alpha_array, K=10):
+def test_svm_kernel(X, y, K=10):
     X = normalize_features(X)
-    print("Testing SVM with Gaussian kernel for predicting wildfire cause...")
-    max_mean_acc = 0
-    best_alpha = 0
-    for alpha in alpha_array:
-        svm_gauss_kernel = SVC(kernel='rbf', C=alpha)
-        print("Testing L2 regularization coeff = " + str(alpha))
-        accs, mean_acc_crossval = cross_val_classification(X, y, K=K, clf=svm_gauss_kernel)
-        print("Obtained avg crossval accuracy = " + str(mean_acc_crossval))
-        if mean_acc_crossval > max_mean_acc:
-            best_alpha = alpha
-            max_mean_acc = mean_acc_crossval
-            best_accs = accs
-    print("SVM with Gaussian kernel best crossval accuracies = " + str(best_accs))
-    print("SVM with Gaussian kernel best avg crossval accuracy = " + str(max_mean_acc))
-    print("SVM with Gaussian kernel best L2 regularization coefficient = " + str(best_alpha))
+    print("Testing SVM with Gaussian vs linear kernel for predicting wildfire cause...")
+    svm_gauss_kernel = SVC(kernel='rbf')
+    print("Testing Gaussian kernel")
+    accs, mean_acc_crossval = cross_val_classification(X, y, K=K, clf=svm_gauss_kernel)
+    print("Gaussian kernel obtained avg crossval accuracy = " + str(mean_acc_crossval))
+
+    svm_linear_kernel = SVC(kernel='linear')
+    print("Testing linear kernel")
+    accs, mean_acc_crossval = cross_val_classification(X, y, K=K, clf=svm_linear_kernel)
+    print("Linear kernel obtained avg crossval accuracy = " + str(mean_acc_crossval))
 
 
 # alpha is the L2 regularization coefficient in the objective function: ||y - Xw||^2_2 + alpha * ||w||^2_2
@@ -534,14 +530,19 @@ def run_decision_tree_tests():
     test_decision_tree_max_depth(X, y, max_depth_array, K=10)
     print('\n')
 
-    print(" --------- Decision Tree (kernel): testing classification of 12 causes of wildfire using latitude, longitude, fire size, and weather features  --------- ")
+    print(" --------- Decision Tree (criterion): testing classification of 12 causes of wildfire using latitude, longitude, fire size, and weather features  --------- ")
     X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size','temperature','wind_speed','humidity','pressure'], causes=list(range(1,13)), y_label='STAT_CAUSE_CODE')
     test_decision_tree_criterion(X, y, K=10)
     print('\n')
 
-    print(" --------- Decision Tree (kernel): testing classification of lightning vs campfire as cause of wildfire using latitude, longitude, fire size, and weather features  --------- ")
+    print(" --------- Decision Tree (criterion): testing classification of lightning vs campfire as cause of wildfire using latitude, longitude, fire size, and weather features  --------- ")
     X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size','temperature','wind_speed','humidity','pressure'], causes=[1,4], y_label='STAT_CAUSE_CODE')
     test_decision_tree_criterion(X, y, K=10)
+    print('\n\n\n')
+
+    print(" --------- Decision Tree (max depth): testing classification of 12 causes with all 176,945 wildfire-only samples in California --------- ")
+    X, y = get_wildfire_dataset()
+    test_decision_tree_max_depth(X, y, max_depth_array, K=10)
     print('\n\n\n')
 
 
@@ -576,22 +577,35 @@ def run_neural_network_tests():
     test_small_net(X, y, K=5)
     print('\n\n\n')
 
+    print(" --------- Neural Network: testing classification of 12 causes with all 176,945 wildfire-only samples in California --------- ")
+    X, y = get_wildfire_dataset()
+    test_big_net(X, y, K=5)
+    print('\n')
+    test_small_net(X, y, K=5)
+    print('\n\n\n')
+
 
 def run_svm_tests():
     if print_tests_to_files:
         sys.stdout = open(test_folder + 'svm_tests.txt', 'w')
-    print(" --------- SVM: testing classification of lightning vs campfire as cause of wildfire using only latitude, longitude, and fire size (no weather features) --------- ")
+    print(" --------- SVM (kernel): testing classification of lightning vs campfire as cause of wildfire using only latitude, longitude, and fire size (no weather features) --------- ")
     X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size'], causes=[1, 4], y_label='STAT_CAUSE_CODE')
-    test_linear_svm(X, y, alpha_array, K=10)
-    print('\n')
-    test_gauss_svm(X, y, alpha_array, K=10)
+    test_svm_kernel(X, y, K=10)
     print('\n')
 
-    print(" --------- SVM: testing classification of lightning vs campfire as cause of wildfire including weather features --------- ")
+    print(" --------- SVM (kernel): testing classification of lightning vs campfire as cause of wildfire including weather features --------- ")
     X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size','temperature','wind_speed','humidity','pressure'], causes=[1, 4], y_label='STAT_CAUSE_CODE')
-    test_linear_svm(X, y, alpha_array, K=10)
+    test_svm_kernel(X, y, K=10)
     print('\n')
-    test_gauss_svm(X, y, alpha_array, K=10)
+
+    print(" --------- SVM (L2 coeff): testing classification of lightning vs campfire as cause of wildfire using only latitude, longitude, and fire size (no weather features) --------- ")
+    X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size'], causes=[1, 4], y_label='STAT_CAUSE_CODE')
+    test_svm_L2_coeff(X, y, alpha_array, K=10)
+    print('\n')
+
+    print(" --------- SVM (L2 coeff): testing classification of lightning vs campfire as cause of wildfire including weather features --------- ")
+    X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size','temperature','wind_speed','humidity','pressure'], causes=[1, 4], y_label='STAT_CAUSE_CODE')
+    test_svm_L2_coeff(X, y, alpha_array, K=10)
     print('\n\n\n')
 
 
@@ -609,6 +623,12 @@ def run_ridge_regression_tests():
     test_ridge_regression(X, y, alpha_array)
     print('\n\n\n')
 
+
+def get_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--display', action='store_true', default=False, help='Flag for printing test results to console rather than to files.')
+    args = parser.parse_args()
+    return args
 
 """
 STAT_CAUSE_CODE to description:
@@ -630,6 +650,9 @@ if __name__ == "__main__":
     pd.set_option('display.max_columns', None)
     pd.set_option('expand_frame_repr', False)
 
+    args = get_args()
+
+    print_tests_to_files = not args.display
 
     cities = ['Los Angeles', 'San Francisco', 'San Diego'] # cities for combining wildfire and weather data
     # save combined wildfire and weather dataset to csv file
@@ -637,8 +660,8 @@ if __name__ == "__main__":
     if ( not path.exists(csv_file) ):
         X, y = get_dataset_with_weather_multi_cities(cities, csv_file) # <-- run this to combine wildfire data with weather data and save to csv
 
-    if ( not path.exists(test_folder) ):
-        os.mkdir(test_folder)
+    if ( print_tests_to_files and not path.exists(test_folder) ):
+        os.mkdir(test_folder) # store test output files here
 
     run_nearest_neighbor_tests()
     run_nearest_neighbor_dimensional_reduction_tests()

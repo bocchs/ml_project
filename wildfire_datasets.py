@@ -36,17 +36,14 @@ def get_wildfire_dataset(y_label='STAT_CAUSE_CODE'):
     db_file = 'FPA_FOD_20170508.sqlite'
     conn = sqlite3.connect(db_file) # create a database connection to the SQLite database specified by the db_file
     # select features
-    # df = pd.read_sql_query("SELECT FIRE_YEAR, STAT_CAUSE_CODE, STAT_CAUSE_DESCR, LATITUDE, LONGITUDE, STATE, DISCOVERY_DATE, FIRE_SIZE FROM 'Fires'", conn)
-    # df = pd.read_sql_query("SELECT STAT_CAUSE_CODE, LATITUDE, LONGITUDE, STATE, FIRE_SIZE FROM 'Fires'", conn)
-    # df = pd.read_sql_query("SELECT STAT_CAUSE_CODE, LATITUDE, LONGITUDE, STATE, FIRE_SIZE, FIRE_YEAR, DISCOVERY_DATE, DISCOVERY_DOY, DISCOVERY_TIME  FROM 'Fires'", conn)
-    df = pd.read_sql_query("SELECT STAT_CAUSE_CODE, LATITUDE, LONGITUDE, STATE, FIRE_SIZE, FIRE_YEAR, DISCOVERY_DOY  FROM 'Fires'", conn)
+    df = pd.read_sql_query("SELECT STAT_CAUSE_CODE, LATITUDE, LONGITUDE, FIRE_SIZE, STATE FROM 'Fires'", conn)
     df = df.dropna() # remove rows with missing entries
     df = df[df['STAT_CAUSE_CODE'] != 13] # remove missing/undefined causes
+    df = df[df['STATE'] == 'CA'] # data only in California so that dataset is not too large to process
 
-    causes = df.STAT_CAUSE_CODE.unique()
+    causes = np.sort(df.STAT_CAUSE_CODE.unique())
     states = df.STATE.unique()
     df = df.drop('STATE', 1) # remove state from features
-    df = df.drop('FIRE_YEAR', 1) # remove year from features
 
     num_features = df.shape[1] - 1
 
@@ -66,7 +63,7 @@ def get_wildfire_dataset(y_label='STAT_CAUSE_CODE'):
             feature_data = label_data.drop(columns=[y_label]).to_numpy() # extract features
             X = np.vstack((X, feature_data))
         new_y = [cause_to_label[cause] for cause in y] # map labels to 0...num_causes-1
-        new_y = np.asarray(new_y)
+        y = np.asarray(new_y)
     else: # predicting fire size
         df = df.drop('STAT_CAUSE_CODE',1)
         y = df['FIRE_SIZE'].to_numpy()
@@ -90,13 +87,10 @@ def get_dataset_with_weather(city="Los Angeles"):
     db_file = 'FPA_FOD_20170508.sqlite'
     conn = sqlite3.connect(db_file) # create a database connection to the SQLite database specified by the db_file
     # select features
-    # df = pd.read_sql_query("SELECT FIRE_YEAR, STAT_CAUSE_CODE, STAT_CAUSE_DESCR, LATITUDE, LONGITUDE, STATE, DISCOVERY_DATE, FIRE_SIZE FROM 'Fires'", conn)
-    # df = pd.read_sql_query("SELECT STAT_CAUSE_CODE, LATITUDE, LONGITUDE, STATE, FIRE_SIZE FROM 'Fires'", conn)
-    # df = pd.read_sql_query("SELECT STAT_CAUSE_CODE, LATITUDE, LONGITUDE, STATE, FIRE_SIZE, FIRE_YEAR, DISCOVERY_DATE, DISCOVERY_DOY, DISCOVERY_TIME  FROM 'Fires'", conn)
     df = pd.read_sql_query("SELECT STAT_CAUSE_CODE, LATITUDE, LONGITUDE, STATE, FIRE_SIZE, FIRE_YEAR, datetime(DISCOVERY_DATE) as DISCOVERY_DATE, DISCOVERY_TIME  FROM 'Fires'", conn)
     df = df.dropna() # remove rows with missing entries
     df = df[df['STAT_CAUSE_CODE'] != 13] # remove missing/undefined causes
-    causes = df['STAT_CAUSE_CODE'].unique() # list of wildfire causes (1-13)
+    causes = np.sort(df['STAT_CAUSE_CODE'].unique()) # list of wildfire causes (1-13)
     df = df.sort_values(by=['DISCOVERY_DATE'], ascending=True) # sort by date of discovery
     df['DISCOVERY_DATE'] = df['DISCOVERY_DATE'].str.replace(' 00:00:00', '') # remove time from date column
 
@@ -164,9 +158,6 @@ def get_dataset_with_weather(city="Los Angeles"):
         pressure_idx = (df_pressure['time'][df_pressure_date_mask] - time).abs().idxmin()
         pressure = df_pressure.iloc[pressure_idx][city]
         df.at[index, 'Pressure'] = pressure
-
-    # df.to_csv('fire_weather_san_diego.csv')
-    # sys.exit()
 
     df_orig = df.copy() # save copy of full dataset
 
