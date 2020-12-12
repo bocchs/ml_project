@@ -4,7 +4,7 @@ To replicate experiments:
 
 1. Download code from repository into working directory
 2. Download wildfire dataset (https://www.kaggle.com/rtatman/188-million-us-wildfires) into working directory (dataset file should just be "FPA_FOD_20170508.sqlite")
-3. Create ./weather_data directory
+3. Create directory ./weather_data
 3. Download weather dataset (https://www.kaggle.com/selfishgene/historical-hourly-weather-data) into ./weather_data (dataset is several csv files)
 4. Run script
 
