@@ -4,7 +4,7 @@ import sqlite3
 import sklearn
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline
-from sklearn.decomposition import IncrementalPCA
+from sklearn.decomposition import PCA
 from sklearn import tree
 from sklearn import neighbors
 from sklearn.svm import SVC
@@ -330,7 +330,7 @@ def test_nearest_neighbor_reduction(X, y, neighbors_list, K=10, d=3):
     best_num_neighbors = 0
     for num_neighbors in neighbors_list:
         clf = neighbors.KNeighborsClassifier(num_neighbors, weights='distance')
-        pca = make_pipeline( StandardScaler(), IncrementalPCA(n_components=d,batch_size=1000000 ) )
+        pca = PCA(n_components=d)
         print("Testing nearest neighbors with k = " + str(num_neighbors) + " and dimension = " + str(d))
         accs, mean_acc_crossval = cross_val_classification_with_reduction(X, y, K=K, clf=clf, pipe=pca)
         print("Obtained avg crossval accuracy = " + str(mean_acc_crossval))
@@ -482,6 +482,11 @@ def run_nearest_neighbor_tests():
     print(" --------- Nearest Neighbors: testing classification of lightning vs campfire as cause of wildfire using latitude, longitude, fire size, and weather features  --------- ")
     X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size','temperature','wind_speed','humidity','pressure'], causes=[1,4], y_label='STAT_CAUSE_CODE')
     test_nearest_neighbor(X, y, neighbors_list, K=10)
+    print('\n')
+
+    print(" --------- Nearest Neighbors: testing classification of 12 causes with all 176,945 wildfire-only samples in California --------- ")
+    X, y = get_wildfire_dataset()
+    test_nearest_neighbor(X, y, neighbors_list, K=10)
     print('\n\n\n')
 
 def run_nearest_neighbor_dimensional_reduction_tests():
@@ -504,6 +509,11 @@ def run_nearest_neighbor_dimensional_reduction_tests():
 
     print(" --------- Nearest Neighbors Dimension 3: testing classification of lightning vs campfire as cause of wildfire using latitude, longitude, fire size, and weather features  --------- ")
     X, y = get_dataset_from_csv(csv_file, features=['latitude','longitude','fire_size','temperature','wind_speed','humidity','pressure'], causes=[1,4], y_label='STAT_CAUSE_CODE')
+    test_nearest_neighbor_reduction(X, y, neighbors_list, K=10, d=3)
+    print('\n')
+
+    print(" --------- Nearest Neighbors Dimension 3: testing classification of 12 causes with all 176,945 wildfire-only samples in California --------- ")
+    X, y = get_wildfire_dataset()
     test_nearest_neighbor_reduction(X, y, neighbors_list, K=10, d=3)
     print('\n\n\n')
 
