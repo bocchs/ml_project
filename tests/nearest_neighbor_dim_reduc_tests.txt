@@ -1,0 +1,240 @@
+ --------- Nearest Neighbors Dimension 3: testing classification of 12 causes of wildfire using only latitude, longitude, and fire size (no weather features)  --------- 
+Testing nearest neighbor with dimension reduction for predicting wildfire cause...
+Testing nearest neighbors with k = 5 and dimension = 3
+Obtained avg crossval accuracy = 0.5042929292929292
+Testing nearest neighbors with k = 10 and dimension = 3
+Obtained avg crossval accuracy = 0.5161616161616162
+Testing nearest neighbors with k = 15 and dimension = 3
+Obtained avg crossval accuracy = 0.5191919191919191
+Testing nearest neighbors with k = 20 and dimension = 3
+Obtained avg crossval accuracy = 0.5272727272727273
+Testing nearest neighbors with k = 25 and dimension = 3
+Obtained avg crossval accuracy = 0.5280303030303031
+Testing nearest neighbors with k = 30 and dimension = 3
+Obtained avg crossval accuracy = 0.5295454545454545
+Testing nearest neighbors with k = 35 and dimension = 3
+Obtained avg crossval accuracy = 0.531060606060606
+Testing nearest neighbors with k = 40 and dimension = 3
+Obtained avg crossval accuracy = 0.531818181818182
+Testing nearest neighbors with k = 45 and dimension = 3
+Obtained avg crossval accuracy = 0.5295454545454545
+Testing nearest neighbors with k = 50 and dimension = 3
+Obtained avg crossval accuracy = 0.5315656565656566
+Testing nearest neighbors with k = 55 and dimension = 3
+Obtained avg crossval accuracy = 0.5320707070707071
+Testing nearest neighbors with k = 60 and dimension = 3
+Obtained avg crossval accuracy = 0.530050505050505
+Testing nearest neighbors with k = 65 and dimension = 3
+Obtained avg crossval accuracy = 0.5313131313131314
+Testing nearest neighbors with k = 70 and dimension = 3
+Obtained avg crossval accuracy = 0.5330808080808082
+Testing nearest neighbors with k = 75 and dimension = 3
+Obtained avg crossval accuracy = 0.5320707070707071
+Testing nearest neighbors with k = 80 and dimension = 3
+Obtained avg crossval accuracy = 0.5305555555555554
+Testing nearest neighbors with k = 85 and dimension = 3
+Obtained avg crossval accuracy = 0.5297979797979797
+Testing nearest neighbors with k = 90 and dimension = 3
+Obtained avg crossval accuracy = 0.5318181818181816
+Testing nearest neighbors with k = 95 and dimension = 3
+Obtained avg crossval accuracy = 0.5315656565656567
+Testing nearest neighbors with k = 100 and dimension = 3
+Obtained avg crossval accuracy = 0.5308080808080808
+Nearest Neighbor dimension reduction best crossval accuracies = [0.56565657 0.55808081 0.52272727 0.52020202 0.52020202 0.50757576
+ 0.51262626 0.53535354 0.57575758 0.51262626]
+Nearest Neighbor dimension reduction best avg crossval accuracy = 0.5330808080808082
+Nearest Neighbor dimension reduction best number of neighbors = 70
+
+
+ --------- Nearest Neighbors Dimension 3: testing classification of 12 causes of wildfire using latitude, longitude, fire size, and weather features  --------- 
+Testing nearest neighbor with dimension reduction for predicting wildfire cause...
+Testing nearest neighbors with k = 5 and dimension = 3
+Obtained avg crossval accuracy = 0.3164141414141414
+Testing nearest neighbors with k = 10 and dimension = 3
+Obtained avg crossval accuracy = 0.35757575757575755
+Testing nearest neighbors with k = 15 and dimension = 3
+Obtained avg crossval accuracy = 0.3765151515151515
+Testing nearest neighbors with k = 20 and dimension = 3
+Obtained avg crossval accuracy = 0.3853535353535353
+Testing nearest neighbors with k = 25 and dimension = 3
+Obtained avg crossval accuracy = 0.39191919191919194
+Testing nearest neighbors with k = 30 and dimension = 3
+Obtained avg crossval accuracy = 0.3952020202020202
+Testing nearest neighbors with k = 35 and dimension = 3
+Obtained avg crossval accuracy = 0.3982323232323232
+Testing nearest neighbors with k = 40 and dimension = 3
+Obtained avg crossval accuracy = 0.40151515151515155
+Testing nearest neighbors with k = 45 and dimension = 3
+Obtained avg crossval accuracy = 0.40681818181818186
+Testing nearest neighbors with k = 50 and dimension = 3
+Obtained avg crossval accuracy = 0.40858585858585855
+Testing nearest neighbors with k = 55 and dimension = 3
+Obtained avg crossval accuracy = 0.4113636363636363
+Testing nearest neighbors with k = 60 and dimension = 3
+Obtained avg crossval accuracy = 0.4126262626262626
+Testing nearest neighbors with k = 65 and dimension = 3
+Obtained avg crossval accuracy = 0.4154040404040404
+Testing nearest neighbors with k = 70 and dimension = 3
+Obtained avg crossval accuracy = 0.41565656565656567
+Testing nearest neighbors with k = 75 and dimension = 3
+Obtained avg crossval accuracy = 0.4136363636363637
+Testing nearest neighbors with k = 80 and dimension = 3
+Obtained avg crossval accuracy = 0.41388888888888886
+Testing nearest neighbors with k = 85 and dimension = 3
+Obtained avg crossval accuracy = 0.4141414141414141
+Testing nearest neighbors with k = 90 and dimension = 3
+Obtained avg crossval accuracy = 0.41691919191919197
+Testing nearest neighbors with k = 95 and dimension = 3
+Obtained avg crossval accuracy = 0.4171717171717172
+Testing nearest neighbors with k = 100 and dimension = 3
+Obtained avg crossval accuracy = 0.4159090909090909
+Nearest Neighbor dimension reduction best crossval accuracies = [0.42171717 0.4469697  0.39393939 0.43181818 0.41666667 0.40151515
+ 0.40656566 0.43686869 0.3989899  0.41666667]
+Nearest Neighbor dimension reduction best avg crossval accuracy = 0.4171717171717172
+Nearest Neighbor dimension reduction best number of neighbors = 95
+
+
+ --------- Nearest Neighbors Dimension 3: testing classification of lightning vs campfire as cause of wildfire using only latitude, longitude, and fire size (no weather features)  --------- 
+Testing nearest neighbor with dimension reduction for predicting wildfire cause...
+Testing nearest neighbors with k = 5 and dimension = 3
+Obtained avg crossval accuracy = 0.7725
+Testing nearest neighbors with k = 10 and dimension = 3
+Obtained avg crossval accuracy = 0.7775000000000001
+Testing nearest neighbors with k = 15 and dimension = 3
+Obtained avg crossval accuracy = 0.77
+Testing nearest neighbors with k = 20 and dimension = 3
+Obtained avg crossval accuracy = 0.775
+Testing nearest neighbors with k = 25 and dimension = 3
+Obtained avg crossval accuracy = 0.7625
+Testing nearest neighbors with k = 30 and dimension = 3
+Obtained avg crossval accuracy = 0.76
+Testing nearest neighbors with k = 35 and dimension = 3
+Obtained avg crossval accuracy = 0.7525000000000001
+Testing nearest neighbors with k = 40 and dimension = 3
+Obtained avg crossval accuracy = 0.745
+Testing nearest neighbors with k = 45 and dimension = 3
+Obtained avg crossval accuracy = 0.7525000000000001
+Testing nearest neighbors with k = 50 and dimension = 3
+Obtained avg crossval accuracy = 0.7275
+Testing nearest neighbors with k = 55 and dimension = 3
+Obtained avg crossval accuracy = 0.7300000000000001
+Testing nearest neighbors with k = 60 and dimension = 3
+Obtained avg crossval accuracy = 0.7300000000000001
+Testing nearest neighbors with k = 65 and dimension = 3
+Obtained avg crossval accuracy = 0.7300000000000001
+Testing nearest neighbors with k = 70 and dimension = 3
+Obtained avg crossval accuracy = 0.7300000000000001
+Testing nearest neighbors with k = 75 and dimension = 3
+Obtained avg crossval accuracy = 0.7275
+Testing nearest neighbors with k = 80 and dimension = 3
+Obtained avg crossval accuracy = 0.725
+Testing nearest neighbors with k = 85 and dimension = 3
+Obtained avg crossval accuracy = 0.7275
+Testing nearest neighbors with k = 90 and dimension = 3
+Obtained avg crossval accuracy = 0.7250000000000001
+Testing nearest neighbors with k = 95 and dimension = 3
+Obtained avg crossval accuracy = 0.725
+Testing nearest neighbors with k = 100 and dimension = 3
+Obtained avg crossval accuracy = 0.7224999999999999
+Nearest Neighbor dimension reduction best crossval accuracies = [0.8   0.825 0.775 0.725 0.825 0.7   0.85  0.625 0.875 0.775]
+Nearest Neighbor dimension reduction best avg crossval accuracy = 0.7775000000000001
+Nearest Neighbor dimension reduction best number of neighbors = 10
+
+
+ --------- Nearest Neighbors Dimension 3: testing classification of lightning vs campfire as cause of wildfire using latitude, longitude, fire size, and weather features  --------- 
+Testing nearest neighbor with dimension reduction for predicting wildfire cause...
+Testing nearest neighbors with k = 5 and dimension = 3
+Obtained avg crossval accuracy = 0.7875000000000001
+Testing nearest neighbors with k = 10 and dimension = 3
+Obtained avg crossval accuracy = 0.7975000000000001
+Testing nearest neighbors with k = 15 and dimension = 3
+Obtained avg crossval accuracy = 0.7725000000000001
+Testing nearest neighbors with k = 20 and dimension = 3
+Obtained avg crossval accuracy = 0.7525
+Testing nearest neighbors with k = 25 and dimension = 3
+Obtained avg crossval accuracy = 0.76
+Testing nearest neighbors with k = 30 and dimension = 3
+Obtained avg crossval accuracy = 0.7725
+Testing nearest neighbors with k = 35 and dimension = 3
+Obtained avg crossval accuracy = 0.7749999999999999
+Testing nearest neighbors with k = 40 and dimension = 3
+Obtained avg crossval accuracy = 0.77
+Testing nearest neighbors with k = 45 and dimension = 3
+Obtained avg crossval accuracy = 0.7725
+Testing nearest neighbors with k = 50 and dimension = 3
+Obtained avg crossval accuracy = 0.7749999999999999
+Testing nearest neighbors with k = 55 and dimension = 3
+Obtained avg crossval accuracy = 0.7675
+Testing nearest neighbors with k = 60 and dimension = 3
+Obtained avg crossval accuracy = 0.7725000000000001
+Testing nearest neighbors with k = 65 and dimension = 3
+Obtained avg crossval accuracy = 0.7675
+Testing nearest neighbors with k = 70 and dimension = 3
+Obtained avg crossval accuracy = 0.765
+Testing nearest neighbors with k = 75 and dimension = 3
+Obtained avg crossval accuracy = 0.7675
+Testing nearest neighbors with k = 80 and dimension = 3
+Obtained avg crossval accuracy = 0.77
+Testing nearest neighbors with k = 85 and dimension = 3
+Obtained avg crossval accuracy = 0.7699999999999999
+Testing nearest neighbors with k = 90 and dimension = 3
+Obtained avg crossval accuracy = 0.7699999999999999
+Testing nearest neighbors with k = 95 and dimension = 3
+Obtained avg crossval accuracy = 0.765
+Testing nearest neighbors with k = 100 and dimension = 3
+Obtained avg crossval accuracy = 0.7675
+Nearest Neighbor dimension reduction best crossval accuracies = [0.775 0.9   0.825 0.7   0.75  0.725 0.925 0.85  0.775 0.75 ]
+Nearest Neighbor dimension reduction best avg crossval accuracy = 0.7975000000000001
+Nearest Neighbor dimension reduction best number of neighbors = 10
+
+
+ --------- Nearest Neighbors Dimension 3: testing classification of 12 causes with all 176,945 wildfire-only samples in California --------- 
+Testing nearest neighbor with dimension reduction for predicting wildfire cause...
+Testing nearest neighbors with k = 5 and dimension = 3
+Obtained avg crossval accuracy = 0.4245506951508985
+Testing nearest neighbors with k = 10 and dimension = 3
+Obtained avg crossval accuracy = 0.4374646772917373
+Testing nearest neighbors with k = 15 and dimension = 3
+Obtained avg crossval accuracy = 0.44302023284729286
+Testing nearest neighbors with k = 20 and dimension = 3
+Obtained avg crossval accuracy = 0.4464394710071211
+Testing nearest neighbors with k = 25 and dimension = 3
+Obtained avg crossval accuracy = 0.4489714027353905
+Testing nearest neighbors with k = 30 and dimension = 3
+Obtained avg crossval accuracy = 0.45041256923250816
+Testing nearest neighbors with k = 35 and dimension = 3
+Obtained avg crossval accuracy = 0.4515824573301684
+Testing nearest neighbors with k = 40 and dimension = 3
+Obtained avg crossval accuracy = 0.4525771447948458
+Testing nearest neighbors with k = 45 and dimension = 3
+Obtained avg crossval accuracy = 0.45326099242681134
+Testing nearest neighbors with k = 50 and dimension = 3
+Obtained avg crossval accuracy = 0.4541652537583361
+Testing nearest neighbors with k = 55 and dimension = 3
+Obtained avg crossval accuracy = 0.4547304170905392
+Testing nearest neighbors with k = 60 and dimension = 3
+Obtained avg crossval accuracy = 0.4549621340567424
+Testing nearest neighbors with k = 65 and dimension = 3
+Obtained avg crossval accuracy = 0.4551938510229456
+Testing nearest neighbors with k = 70 and dimension = 3
+Obtained avg crossval accuracy = 0.45545947778908114
+Testing nearest neighbors with k = 75 and dimension = 3
+Obtained avg crossval accuracy = 0.45575901435514854
+Testing nearest neighbors with k = 80 and dimension = 3
+Obtained avg crossval accuracy = 0.4558381372216571
+Testing nearest neighbors with k = 85 and dimension = 3
+Obtained avg crossval accuracy = 0.4556968463886063
+Testing nearest neighbors with k = 90 and dimension = 3
+Obtained avg crossval accuracy = 0.45536905165592856
+Testing nearest neighbors with k = 95 and dimension = 3
+Obtained avg crossval accuracy = 0.45567423985531813
+Testing nearest neighbors with k = 100 and dimension = 3
+Obtained avg crossval accuracy = 0.4560755058211822
+Nearest Neighbor dimension reduction best crossval accuracies = [0.45959082 0.45495648 0.45665197 0.45913869 0.45631287 0.45450435
+ 0.45523906 0.45303493 0.46100373 0.45032214]
+Nearest Neighbor dimension reduction best avg crossval accuracy = 0.4560755058211822
+Nearest Neighbor dimension reduction best number of neighbors = 100
+
+
+
+

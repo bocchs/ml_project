@@ -1,0 +1,128 @@
+ --------- Decision Tree (max depth): testing classification of 12 causes of wildfire using only latitude, longitude, and fire size (no weather features)  --------- 
+Testing decision tree best max depth for predicting wildfire cause...
+Testing decision tree max_depth = 3
+Obtained avg crossval accuracy = 0.4204545454545454
+Testing decision tree max_depth = 5
+Obtained avg crossval accuracy = 0.40909090909090906
+Testing decision tree max_depth = 10
+Obtained avg crossval accuracy = 0.42979797979797973
+Testing decision tree max_depth = 20
+Obtained avg crossval accuracy = 0.43611111111111117
+Testing decision tree max_depth = 25
+Obtained avg crossval accuracy = 0.4358585858585859
+Testing decision tree max_depth = 50
+Obtained avg crossval accuracy = 0.43232323232323233
+Testing decision tree max_depth = 100
+Obtained avg crossval accuracy = 0.4320707070707071
+Decision Tree best crossval accuracies = [0.46717172 0.45707071 0.45454545 0.43434343 0.4040404  0.4040404
+ 0.44191919 0.41161616 0.45959596 0.42676768]
+Decision Tree best avg crossval accuracy = 0.43611111111111117
+Decision Tree best max depth = 20
+
+
+ --------- Decision Tree (max depth): testing classification of 12 causes of wildfire using latitude, longitude, fire size, and weather features  --------- 
+Testing decision tree best max depth for predicting wildfire cause...
+Testing decision tree max_depth = 3
+Obtained avg crossval accuracy = 0.4141414141414141
+Testing decision tree max_depth = 5
+Obtained avg crossval accuracy = 0.402020202020202
+Testing decision tree max_depth = 10
+Obtained avg crossval accuracy = 0.3997474747474748
+Testing decision tree max_depth = 20
+Obtained avg crossval accuracy = 0.3580808080808081
+Testing decision tree max_depth = 25
+Obtained avg crossval accuracy = 0.3535353535353535
+Testing decision tree max_depth = 50
+Obtained avg crossval accuracy = 0.3580808080808081
+Testing decision tree max_depth = 100
+Obtained avg crossval accuracy = 0.35934343434343435
+Decision Tree best crossval accuracies = [0.41919192 0.42676768 0.39393939 0.44191919 0.41666667 0.38131313
+ 0.39646465 0.42929293 0.41666667 0.41919192]
+Decision Tree best avg crossval accuracy = 0.4141414141414141
+Decision Tree best max depth = 3
+
+
+ --------- Decision Tree (max depth): testing classification of lightning vs campfire as cause of wildfire using only latitude, longitude, and fire size (no weather features)  --------- 
+Testing decision tree best max depth for predicting wildfire cause...
+Testing decision tree max_depth = 3
+Obtained avg crossval accuracy = 0.715
+Testing decision tree max_depth = 5
+Obtained avg crossval accuracy = 0.7425
+Testing decision tree max_depth = 10
+Obtained avg crossval accuracy = 0.7749999999999999
+Testing decision tree max_depth = 20
+Obtained avg crossval accuracy = 0.7775000000000001
+Testing decision tree max_depth = 25
+Obtained avg crossval accuracy = 0.785
+Testing decision tree max_depth = 50
+Obtained avg crossval accuracy = 0.795
+Testing decision tree max_depth = 100
+Obtained avg crossval accuracy = 0.775
+Decision Tree best crossval accuracies = [0.775 0.775 0.775 0.825 0.75  0.85  0.825 0.7   0.825 0.85 ]
+Decision Tree best avg crossval accuracy = 0.795
+Decision Tree best max depth = 50
+
+
+ --------- Decision Tree (max depth): testing classification of lightning vs campfire as cause of wildfire using latitude, longitude, fire size, and weather features  --------- 
+Testing decision tree best max depth for predicting wildfire cause...
+Testing decision tree max_depth = 3
+Obtained avg crossval accuracy = 0.7875
+Testing decision tree max_depth = 5
+Obtained avg crossval accuracy = 0.805
+Testing decision tree max_depth = 10
+Obtained avg crossval accuracy = 0.8125
+Testing decision tree max_depth = 20
+Obtained avg crossval accuracy = 0.8150000000000001
+Testing decision tree max_depth = 25
+Obtained avg crossval accuracy = 0.8024999999999999
+Testing decision tree max_depth = 50
+Obtained avg crossval accuracy = 0.82
+Testing decision tree max_depth = 100
+Obtained avg crossval accuracy = 0.8075000000000001
+Decision Tree best crossval accuracies = [0.85  0.8   0.725 0.9   0.825 0.85  0.825 0.775 0.825 0.825]
+Decision Tree best avg crossval accuracy = 0.82
+Decision Tree best max depth = 50
+
+
+ --------- Decision Tree (criterion): testing classification of 12 causes of wildfire using latitude, longitude, fire size, and weather features  --------- 
+Testing decision tree mutual info vs Gini feature split for predicting wildfire cause...
+Testing decision tree with Gini criterion
+Gini criterion obtained avg crossval accuracy = 0.3997474747474747
+Testing decision tree with entropy criterion
+entropy criterion obtained avg crossval accuracy = 0.39646464646464646
+
+
+ --------- Decision Tree (criterion): testing classification of lightning vs campfire as cause of wildfire using latitude, longitude, fire size, and weather features  --------- 
+Testing decision tree mutual info vs Gini feature split for predicting wildfire cause...
+Testing decision tree with Gini criterion
+Gini criterion obtained avg crossval accuracy = 0.8125
+Testing decision tree with entropy criterion
+entropy criterion obtained avg crossval accuracy = 0.8
+
+
+
+
+ --------- Decision Tree (max depth): testing classification of 12 causes with all 176,945 wildfire-only samples in California --------- 
+Testing decision tree best max depth for predicting wildfire cause...
+Testing decision tree max_depth = 3
+Obtained avg crossval accuracy = 0.35145812139708377
+Testing decision tree max_depth = 5
+Obtained avg crossval accuracy = 0.38587656832824685
+Testing decision tree max_depth = 10
+Obtained avg crossval accuracy = 0.43170001130326663
+Testing decision tree max_depth = 20
+Obtained avg crossval accuracy = 0.4148807505369051
+Testing decision tree max_depth = 25
+Obtained avg crossval accuracy = 0.3955126031423081
+Testing decision tree max_depth = 50
+Obtained avg crossval accuracy = 0.3832429072001809
+Testing decision tree max_depth = 100
+Obtained avg crossval accuracy = 0.3825816661015033
+Decision Tree best crossval accuracies = [0.43619306 0.43042839 0.42782864 0.43698429 0.42878942 0.43370634
+ 0.43138917 0.42635922 0.43336724 0.43195433]
+Decision Tree best avg crossval accuracy = 0.43170001130326663
+Decision Tree best max depth = 10
+
+
+
+

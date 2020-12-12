@@ -1,0 +1,240 @@
+ --------- Nearest Neighbors: testing classification of 12 causes of wildfire using only latitude, longitude, and fire size (no weather features)  --------- 
+Testing nearest neighbor for predicting wildfire cause...
+Testing nearest neighbors with k = 5
+Obtained avg crossval accuracy = 0.5042929292929292
+Testing nearest neighbors with k = 10
+Obtained avg crossval accuracy = 0.5161616161616162
+Testing nearest neighbors with k = 15
+Obtained avg crossval accuracy = 0.5191919191919191
+Testing nearest neighbors with k = 20
+Obtained avg crossval accuracy = 0.5272727272727273
+Testing nearest neighbors with k = 25
+Obtained avg crossval accuracy = 0.5282828282828284
+Testing nearest neighbors with k = 30
+Obtained avg crossval accuracy = 0.5295454545454545
+Testing nearest neighbors with k = 35
+Obtained avg crossval accuracy = 0.531060606060606
+Testing nearest neighbors with k = 40
+Obtained avg crossval accuracy = 0.531818181818182
+Testing nearest neighbors with k = 45
+Obtained avg crossval accuracy = 0.5295454545454545
+Testing nearest neighbors with k = 50
+Obtained avg crossval accuracy = 0.5315656565656566
+Testing nearest neighbors with k = 55
+Obtained avg crossval accuracy = 0.5320707070707071
+Testing nearest neighbors with k = 60
+Obtained avg crossval accuracy = 0.530050505050505
+Testing nearest neighbors with k = 65
+Obtained avg crossval accuracy = 0.5315656565656567
+Testing nearest neighbors with k = 70
+Obtained avg crossval accuracy = 0.5330808080808082
+Testing nearest neighbors with k = 75
+Obtained avg crossval accuracy = 0.5320707070707071
+Testing nearest neighbors with k = 80
+Obtained avg crossval accuracy = 0.5305555555555554
+Testing nearest neighbors with k = 85
+Obtained avg crossval accuracy = 0.5297979797979797
+Testing nearest neighbors with k = 90
+Obtained avg crossval accuracy = 0.5318181818181816
+Testing nearest neighbors with k = 95
+Obtained avg crossval accuracy = 0.5315656565656567
+Testing nearest neighbors with k = 100
+Obtained avg crossval accuracy = 0.5308080808080808
+Nearest Neighbor best crossval accuracies = [0.56565657 0.55808081 0.52272727 0.52020202 0.52020202 0.50757576
+ 0.51262626 0.53535354 0.57575758 0.51262626]
+Nearest Neighbor best avg crossval accuracy = 0.5330808080808082
+Nearest Neighbor best number of neighbors = 70
+
+
+ --------- Nearest Neighbors: testing classification of 12 causes of wildfire using latitude, longitude, fire size, and weather features  --------- 
+Testing nearest neighbor for predicting wildfire cause...
+Testing nearest neighbors with k = 5
+Obtained avg crossval accuracy = 0.34141414141414145
+Testing nearest neighbors with k = 10
+Obtained avg crossval accuracy = 0.376010101010101
+Testing nearest neighbors with k = 15
+Obtained avg crossval accuracy = 0.3896464646464647
+Testing nearest neighbors with k = 20
+Obtained avg crossval accuracy = 0.4012626262626262
+Testing nearest neighbors with k = 25
+Obtained avg crossval accuracy = 0.40858585858585855
+Testing nearest neighbors with k = 30
+Obtained avg crossval accuracy = 0.4136363636363637
+Testing nearest neighbors with k = 35
+Obtained avg crossval accuracy = 0.41767676767676765
+Testing nearest neighbors with k = 40
+Obtained avg crossval accuracy = 0.41742424242424236
+Testing nearest neighbors with k = 45
+Obtained avg crossval accuracy = 0.41843434343434344
+Testing nearest neighbors with k = 50
+Obtained avg crossval accuracy = 0.4196969696969696
+Testing nearest neighbors with k = 55
+Obtained avg crossval accuracy = 0.4212121212121212
+Testing nearest neighbors with k = 60
+Obtained avg crossval accuracy = 0.4212121212121212
+Testing nearest neighbors with k = 65
+Obtained avg crossval accuracy = 0.41969696969696973
+Testing nearest neighbors with k = 70
+Obtained avg crossval accuracy = 0.4212121212121212
+Testing nearest neighbors with k = 75
+Obtained avg crossval accuracy = 0.42095959595959603
+Testing nearest neighbors with k = 80
+Obtained avg crossval accuracy = 0.4222222222222222
+Testing nearest neighbors with k = 85
+Obtained avg crossval accuracy = 0.42474747474747476
+Testing nearest neighbors with k = 90
+Obtained avg crossval accuracy = 0.42348484848484846
+Testing nearest neighbors with k = 95
+Obtained avg crossval accuracy = 0.4234848484848485
+Testing nearest neighbors with k = 100
+Obtained avg crossval accuracy = 0.4217171717171717
+Nearest Neighbor best crossval accuracies = [0.4520202  0.44444444 0.40909091 0.42929293 0.41919192 0.40656566
+ 0.4040404  0.4520202  0.41161616 0.41919192]
+Nearest Neighbor best avg crossval accuracy = 0.42474747474747476
+Nearest Neighbor best number of neighbors = 85
+
+
+ --------- Nearest Neighbors: testing classification of lightning vs campfire as cause of wildfire using only latitude, longitude, and fire size (no weather features)  --------- 
+Testing nearest neighbor for predicting wildfire cause...
+Testing nearest neighbors with k = 5
+Obtained avg crossval accuracy = 0.7725
+Testing nearest neighbors with k = 10
+Obtained avg crossval accuracy = 0.7775000000000001
+Testing nearest neighbors with k = 15
+Obtained avg crossval accuracy = 0.77
+Testing nearest neighbors with k = 20
+Obtained avg crossval accuracy = 0.775
+Testing nearest neighbors with k = 25
+Obtained avg crossval accuracy = 0.7625
+Testing nearest neighbors with k = 30
+Obtained avg crossval accuracy = 0.76
+Testing nearest neighbors with k = 35
+Obtained avg crossval accuracy = 0.7525000000000001
+Testing nearest neighbors with k = 40
+Obtained avg crossval accuracy = 0.745
+Testing nearest neighbors with k = 45
+Obtained avg crossval accuracy = 0.7525000000000001
+Testing nearest neighbors with k = 50
+Obtained avg crossval accuracy = 0.7275
+Testing nearest neighbors with k = 55
+Obtained avg crossval accuracy = 0.7300000000000001
+Testing nearest neighbors with k = 60
+Obtained avg crossval accuracy = 0.7300000000000001
+Testing nearest neighbors with k = 65
+Obtained avg crossval accuracy = 0.7300000000000001
+Testing nearest neighbors with k = 70
+Obtained avg crossval accuracy = 0.7300000000000001
+Testing nearest neighbors with k = 75
+Obtained avg crossval accuracy = 0.7275
+Testing nearest neighbors with k = 80
+Obtained avg crossval accuracy = 0.725
+Testing nearest neighbors with k = 85
+Obtained avg crossval accuracy = 0.7275
+Testing nearest neighbors with k = 90
+Obtained avg crossval accuracy = 0.7250000000000001
+Testing nearest neighbors with k = 95
+Obtained avg crossval accuracy = 0.725
+Testing nearest neighbors with k = 100
+Obtained avg crossval accuracy = 0.7224999999999999
+Nearest Neighbor best crossval accuracies = [0.8   0.825 0.775 0.725 0.825 0.7   0.85  0.625 0.875 0.775]
+Nearest Neighbor best avg crossval accuracy = 0.7775000000000001
+Nearest Neighbor best number of neighbors = 10
+
+
+ --------- Nearest Neighbors: testing classification of lightning vs campfire as cause of wildfire using latitude, longitude, fire size, and weather features  --------- 
+Testing nearest neighbor for predicting wildfire cause...
+Testing nearest neighbors with k = 5
+Obtained avg crossval accuracy = 0.7975000000000001
+Testing nearest neighbors with k = 10
+Obtained avg crossval accuracy = 0.795
+Testing nearest neighbors with k = 15
+Obtained avg crossval accuracy = 0.805
+Testing nearest neighbors with k = 20
+Obtained avg crossval accuracy = 0.7925
+Testing nearest neighbors with k = 25
+Obtained avg crossval accuracy = 0.7949999999999999
+Testing nearest neighbors with k = 30
+Obtained avg crossval accuracy = 0.7875
+Testing nearest neighbors with k = 35
+Obtained avg crossval accuracy = 0.7875
+Testing nearest neighbors with k = 40
+Obtained avg crossval accuracy = 0.7825
+Testing nearest neighbors with k = 45
+Obtained avg crossval accuracy = 0.785
+Testing nearest neighbors with k = 50
+Obtained avg crossval accuracy = 0.7775000000000001
+Testing nearest neighbors with k = 55
+Obtained avg crossval accuracy = 0.7725
+Testing nearest neighbors with k = 60
+Obtained avg crossval accuracy = 0.7549999999999999
+Testing nearest neighbors with k = 65
+Obtained avg crossval accuracy = 0.7725
+Testing nearest neighbors with k = 70
+Obtained avg crossval accuracy = 0.765
+Testing nearest neighbors with k = 75
+Obtained avg crossval accuracy = 0.7649999999999999
+Testing nearest neighbors with k = 80
+Obtained avg crossval accuracy = 0.7625
+Testing nearest neighbors with k = 85
+Obtained avg crossval accuracy = 0.7699999999999999
+Testing nearest neighbors with k = 90
+Obtained avg crossval accuracy = 0.7725
+Testing nearest neighbors with k = 95
+Obtained avg crossval accuracy = 0.7699999999999999
+Testing nearest neighbors with k = 100
+Obtained avg crossval accuracy = 0.7625
+Nearest Neighbor best crossval accuracies = [0.825 0.875 0.875 0.7   0.775 0.775 0.825 0.75  0.875 0.775]
+Nearest Neighbor best avg crossval accuracy = 0.805
+Nearest Neighbor best number of neighbors = 15
+
+
+ --------- Nearest Neighbors: testing classification of 12 causes with all 176,945 wildfire-only samples in California --------- 
+Testing nearest neighbor for predicting wildfire cause...
+Testing nearest neighbors with k = 5
+Obtained avg crossval accuracy = 0.4223522097886289
+Testing nearest neighbors with k = 10
+Obtained avg crossval accuracy = 0.435509212162315
+Testing nearest neighbors with k = 15
+Obtained avg crossval accuracy = 0.4410365095512603
+Testing nearest neighbors with k = 20
+Obtained avg crossval accuracy = 0.44433706341132584
+Testing nearest neighbors with k = 25
+Obtained avg crossval accuracy = 0.44691985983949356
+Testing nearest neighbors with k = 30
+Obtained avg crossval accuracy = 0.44849101390301804
+Testing nearest neighbors with k = 35
+Obtained avg crossval accuracy = 0.44957047586752574
+Testing nearest neighbors with k = 40
+Obtained avg crossval accuracy = 0.4505651633322031
+Testing nearest neighbors with k = 45
+Obtained avg crossval accuracy = 0.4512829207641008
+Testing nearest neighbors with k = 50
+Obtained avg crossval accuracy = 0.45211371086243923
+Testing nearest neighbors with k = 55
+Obtained avg crossval accuracy = 0.4527127839945745
+Testing nearest neighbors with k = 60
+Obtained avg crossval accuracy = 0.45287102972759125
+Testing nearest neighbors with k = 65
+Obtained avg crossval accuracy = 0.4530405787272522
+Testing nearest neighbors with k = 70
+Obtained avg crossval accuracy = 0.4533740250932519
+Testing nearest neighbors with k = 75
+Obtained avg crossval accuracy = 0.45349270939301467
+Testing nearest neighbors with k = 80
+Obtained avg crossval accuracy = 0.4536961681926076
+Testing nearest neighbors with k = 85
+Obtained avg crossval accuracy = 0.45347575449304844
+Testing nearest neighbors with k = 90
+Obtained avg crossval accuracy = 0.45315361139369276
+Testing nearest neighbors with k = 95
+Obtained avg crossval accuracy = 0.4534531479597604
+Testing nearest neighbors with k = 100
+Obtained avg crossval accuracy = 0.45379224595908213
+Nearest Neighbor best crossval accuracies = [0.45687804 0.45314796 0.45427829 0.45755623 0.45365661 0.45246976
+ 0.45365661 0.45032214 0.45795185 0.44800497]
+Nearest Neighbor best avg crossval accuracy = 0.45379224595908213
+Nearest Neighbor best number of neighbors = 100
+
+
+
+

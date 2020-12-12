@@ -1,0 +1,109 @@
+ --------- Neural Network: testing classification of 12 causes of wildfire using only latitude, longitude, and fire size (no weather features) --------- 
+Testing Big Net for predicting wildfire cause...
+Finished training neural net: total loss = 1818.3692526817322   avg loss = 1.818369252681732
+Finished training neural net: total loss = 1800.6361159086227   avg loss = 1.8006361159086228
+Finished training neural net: total loss = 1817.8598707914352   avg loss = 1.8178598707914353
+Finished training neural net: total loss = 1796.939038991928   avg loss = 1.7969390389919282
+Finished training neural net: total loss = 1802.6440678834915   avg loss = 1.8026440678834914
+Big Net crossval accuracies = [0.41740227 0.40983607 0.38965952 0.4148802  0.40605296]
+Big Net average crossval accuracy = 0.4075662042875157
+
+
+Testing Small Net for predicting wildfire cause...
+Finished training neural net: total loss = 1812.2706472873688   avg loss = 1.8122706472873689
+Finished training neural net: total loss = 1819.7125355005264   avg loss = 1.8197125355005264
+Finished training neural net: total loss = 1790.208279967308   avg loss = 1.790208279967308
+Finished training neural net: total loss = 1810.2713029384613   avg loss = 1.8102713029384614
+Finished training neural net: total loss = 1802.6905943155289   avg loss = 1.802690594315529
+Small Net crossval accuracies = [0.41740227 0.4110971  0.40226986 0.42244641 0.40605296]
+Small Net average crossval accuracy = 0.4118537200504414
+
+
+ --------- Neural Network: testing classification of 12 causes of wildfire including weather features --------- 
+Testing Big Net for predicting wildfire cause...
+Finished training neural net: total loss = 1798.3049458265305   avg loss = 1.7983049458265306
+Finished training neural net: total loss = 1792.955620765686   avg loss = 1.792955620765686
+Finished training neural net: total loss = 1786.9947333335876   avg loss = 1.7869947333335876
+Finished training neural net: total loss = 1804.7539080381393   avg loss = 1.8047539080381394
+Finished training neural net: total loss = 1803.0222626924515   avg loss = 1.8030222626924515
+Big Net crossval accuracies = [0.4186633  0.40983607 0.39218159 0.41614124 0.40605296]
+Big Net average crossval accuracy = 0.4085750315258512
+
+
+Testing Small Net for predicting wildfire cause...
+Finished training neural net: total loss = 1788.785327911377   avg loss = 1.788785327911377
+Finished training neural net: total loss = 1799.821902513504   avg loss = 1.799821902513504
+Finished training neural net: total loss = 1781.6446608304977   avg loss = 1.7816446608304977
+Finished training neural net: total loss = 1799.3742654323578   avg loss = 1.7993742654323577
+Finished training neural net: total loss = 1789.4914224147797   avg loss = 1.7894914224147798
+Small Net crossval accuracies = [0.41740227 0.40983607 0.38965952 0.41740227 0.407314  ]
+Small Net average crossval accuracy = 0.40832282471626735
+
+
+ --------- Neural Network: testing classification of lightning vs campfire as cause of wildfire using only latitude, longitude, and fire size (no weather features) --------- 
+Testing Big Net for predicting wildfire cause...
+Finished training neural net: total loss = 537.2644449472427   avg loss = 0.5372644449472428
+Finished training neural net: total loss = 533.1935549080372   avg loss = 0.5331935549080372
+Finished training neural net: total loss = 555.2404977381229   avg loss = 0.5552404977381229
+Finished training neural net: total loss = 529.1902848184109   avg loss = 0.5291902848184109
+Finished training neural net: total loss = 524.9956118613482   avg loss = 0.5249956118613481
+Big Net crossval accuracies = [0.61728395 0.72839506 0.75308642 0.71604938 0.65432099]
+Big Net average crossval accuracy = 0.6938271604938272
+
+
+Testing Small Net for predicting wildfire cause...
+Finished training neural net: total loss = 547.684473335743   avg loss = 0.547684473335743
+Finished training neural net: total loss = 547.1487337052822   avg loss = 0.5471487337052822
+Finished training neural net: total loss = 544.7398118972778   avg loss = 0.5447398118972778
+Finished training neural net: total loss = 516.1586098074913   avg loss = 0.5161586098074913
+Finished training neural net: total loss = 521.7526375055313   avg loss = 0.5217526375055314
+Small Net crossval accuracies = [0.5308642  0.67901235 0.82716049 0.66666667 0.65432099]
+Small Net average crossval accuracy = 0.671604938271605
+
+
+ --------- Neural Network: testing classification of lightning vs campfire as cause of wildfire including weather features --------- 
+Testing Big Net for predicting wildfire cause...
+Finished training neural net: total loss = 252.54788991529495   avg loss = 0.2525478899152949
+Finished training neural net: total loss = 272.06339344009757   avg loss = 0.27206339344009756
+Finished training neural net: total loss = 241.56417203508317   avg loss = 0.24156417203508318
+Finished training neural net: total loss = 223.16200364846736   avg loss = 0.22316200364846736
+Finished training neural net: total loss = 278.76155451126397   avg loss = 0.27876155451126394
+Big Net crossval accuracies = [0.82716049 0.79012346 0.77777778 0.74074074 0.72839506]
+Big Net average crossval accuracy = 0.7728395061728395
+
+
+Testing Small Net for predicting wildfire cause...
+Finished training neural net: total loss = 243.90143296308815   avg loss = 0.24390143296308817
+Finished training neural net: total loss = 252.59736334020272   avg loss = 0.2525973633402027
+Finished training neural net: total loss = 296.7796294428408   avg loss = 0.2967796294428408
+Finished training neural net: total loss = 227.27161921560764   avg loss = 0.22727161921560765
+Finished training neural net: total loss = 262.26043370272964   avg loss = 0.26226043370272967
+Small Net crossval accuracies = [0.87654321 0.82716049 0.81481481 0.7654321  0.74074074]
+Small Net average crossval accuracy = 0.8049382716049382
+
+
+
+
+ --------- Neural Network: testing classification of 12 causes with all 176,945 wildfire-only samples in California --------- 
+Testing Big Net for predicting wildfire cause...
+Finished training neural net: total loss = 1808.2744559049606   avg loss = 1.8082744559049606
+Finished training neural net: total loss = 1842.4846950769424   avg loss = 1.8424846950769425
+Finished training neural net: total loss = 1812.1760077476501   avg loss = 1.81217600774765
+Finished training neural net: total loss = 1822.72294652462   avg loss = 1.82272294652462
+Finished training neural net: total loss = 1807.4614149332047   avg loss = 1.8074614149332047
+Big Net crossval accuracies = [0.35660799 0.38723897 0.36923903 0.38941479 0.37339286]
+Big Net average crossval accuracy = 0.37517872785328776
+
+
+Testing Small Net for predicting wildfire cause...
+Finished training neural net: total loss = 1820.461618065834   avg loss = 1.820461618065834
+Finished training neural net: total loss = 1821.110637307167   avg loss = 1.821110637307167
+Finished training neural net: total loss = 1801.310584306717   avg loss = 1.801310584306717
+Finished training neural net: total loss = 1813.6518092155457   avg loss = 1.8136518092155456
+Finished training neural net: total loss = 1784.4925320148468   avg loss = 1.7844925320148468
+Small Net crossval accuracies = [0.35530815 0.3706519  0.38181356 0.3760208  0.38944305]
+Small Net average crossval accuracy = 0.3746474893328436
+
+
+
+

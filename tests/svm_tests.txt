@@ -1,0 +1,72 @@
+ --------- SVM (kernel): testing classification of lightning vs campfire as cause of wildfire using only latitude, longitude, and fire size (no weather features) --------- 
+Testing SVM with Gaussian vs linear kernel for predicting wildfire cause...
+Testing Gaussian kernel
+Gaussian kernel obtained avg crossval accuracy = 0.6725000000000001
+Testing linear kernel
+Linear kernel obtained avg crossval accuracy = 0.6425000000000001
+
+
+ --------- SVM (kernel): testing classification of lightning vs campfire as cause of wildfire including weather features --------- 
+Testing SVM with Gaussian vs linear kernel for predicting wildfire cause...
+Testing Gaussian kernel
+Gaussian kernel obtained avg crossval accuracy = 0.7499999999999999
+Testing linear kernel
+Linear kernel obtained avg crossval accuracy = 0.745
+
+
+ --------- SVM (L2 coeff): testing classification of lightning vs campfire as cause of wildfire using only latitude, longitude, and fire size (no weather features) --------- 
+Testing L2 coeffs in SVM with linear kernel for predicting wildfire cause...
+Testing L2 regularization coeff = 0.001
+Obtained avg crossval accuracy = 0.6450000000000001
+Testing L2 regularization coeff = 0.01
+Obtained avg crossval accuracy = 0.6425000000000001
+Testing L2 regularization coeff = 0.1
+Obtained avg crossval accuracy = 0.6425000000000001
+Testing L2 regularization coeff = 0.5
+Obtained avg crossval accuracy = 0.6425000000000001
+Testing L2 regularization coeff = 1
+Obtained avg crossval accuracy = 0.6425000000000001
+Testing L2 regularization coeff = 10
+Obtained avg crossval accuracy = 0.6425000000000001
+Testing L2 regularization coeff = 50
+Obtained avg crossval accuracy = 0.6425000000000001
+Testing L2 regularization coeff = 100
+Obtained avg crossval accuracy = 0.6425000000000001
+Testing L2 regularization coeff = 500
+Obtained avg crossval accuracy = 0.6425000000000001
+Testing L2 regularization coeff = 1000
+Obtained avg crossval accuracy = 0.6425000000000001
+SVM with linear kernel best crossval accuracies = [0.65  0.675 0.675 0.55  0.675 0.65  0.7   0.6   0.7   0.575]
+SVM with linear kernel best avg crossval accuracy = 0.6450000000000001
+SVM with linear kernel best L2 regularization coefficient = 0.001
+
+
+ --------- SVM (L2 coeff): testing classification of lightning vs campfire as cause of wildfire including weather features --------- 
+Testing L2 coeffs in SVM with linear kernel for predicting wildfire cause...
+Testing L2 regularization coeff = 0.001
+Obtained avg crossval accuracy = 0.6450000000000001
+Testing L2 regularization coeff = 0.01
+Obtained avg crossval accuracy = 0.745
+Testing L2 regularization coeff = 0.1
+Obtained avg crossval accuracy = 0.7325
+Testing L2 regularization coeff = 0.5
+Obtained avg crossval accuracy = 0.745
+Testing L2 regularization coeff = 1
+Obtained avg crossval accuracy = 0.745
+Testing L2 regularization coeff = 10
+Obtained avg crossval accuracy = 0.7525000000000001
+Testing L2 regularization coeff = 50
+Obtained avg crossval accuracy = 0.7575000000000001
+Testing L2 regularization coeff = 100
+Obtained avg crossval accuracy = 0.755
+Testing L2 regularization coeff = 500
+Obtained avg crossval accuracy = 0.7575000000000001
+Testing L2 regularization coeff = 1000
+Obtained avg crossval accuracy = 0.7575000000000001
+SVM with linear kernel best crossval accuracies = [0.825 0.875 0.7   0.7   0.725 0.7   0.8   0.775 0.825 0.65 ]
+SVM with linear kernel best avg crossval accuracy = 0.7575000000000001
+SVM with linear kernel best L2 regularization coefficient = 50
+
+
+
+

@@ -1,0 +1,54 @@
+ --------- Ridge Regression: testing prediction of wildfire size using only weather features --------- 
+Testing ridge regression for predicting wildfire size...
+Testing L2 regularization coeff  = 0.001
+Obtained avg crossval MSE = 0.019961179564321113
+Testing L2 regularization coeff  = 0.01
+Obtained avg crossval MSE = 0.01996117932700334
+Testing L2 regularization coeff  = 0.1
+Obtained avg crossval MSE = 0.019961176954011166
+Testing L2 regularization coeff  = 0.5
+Obtained avg crossval MSE = 0.019961166411460157
+Testing L2 regularization coeff  = 1
+Obtained avg crossval MSE = 0.019961153242634283
+Testing L2 regularization coeff  = 10
+Obtained avg crossval MSE = 0.019960917970509345
+Testing L2 regularization coeff  = 50
+Obtained avg crossval MSE = 0.019959911462859997
+Testing L2 regularization coeff  = 100
+Obtained avg crossval MSE = 0.019958737370518537
+Testing L2 regularization coeff  = 500
+Obtained avg crossval MSE = 0.019951840032708744
+Testing L2 regularization coeff  = 1000
+Obtained avg crossval MSE = 0.01994693838766228
+Ridge regression best average MSE = 0.01994693838766228
+Ridge regression best L2 regularization coefficient = 1000
+
+
+ --------- Ridge Regression: testing prediction of wildfire size using latitude, longitude, and weather features --------- 
+Testing ridge regression for predicting wildfire size...
+Testing L2 regularization coeff  = 0.001
+Obtained avg crossval MSE = 0.019924960514136794
+Testing L2 regularization coeff  = 0.01
+Obtained avg crossval MSE = 0.019924956921958847
+Testing L2 regularization coeff  = 0.1
+Obtained avg crossval MSE = 0.01992492107185987
+Testing L2 regularization coeff  = 0.5
+Obtained avg crossval MSE = 0.01992476329787504
+Testing L2 regularization coeff  = 1
+Obtained avg crossval MSE = 0.01992456958566349
+Testing L2 regularization coeff  = 10
+Obtained avg crossval MSE = 0.019921630495311076
+Testing L2 regularization coeff  = 50
+Obtained avg crossval MSE = 0.019914645413200656
+Testing L2 regularization coeff  = 100
+Obtained avg crossval MSE = 0.019910457009496167
+Testing L2 regularization coeff  = 500
+Obtained avg crossval MSE = 0.019898830104620055
+Testing L2 regularization coeff  = 1000
+Obtained avg crossval MSE = 0.01989405623781739
+Ridge regression best average MSE = 0.01989405623781739
+Ridge regression best L2 regularization coefficient = 1000
+
+
+
+
